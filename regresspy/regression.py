@@ -5,7 +5,6 @@ from numpy import ndarray
 
 from loss import mae, sse, mse, rmse
 from gradient_descent import forward, backward
-from regresspy import loss
 
 
 class Regression(object):
@@ -39,7 +38,7 @@ class Regression(object):
         Returns
             (ndarray): predictions of shape (observations x 1)
         """
-        predictions = _X @ self_weights['W'] + self ._weights['B']
+        predictions = X @ self._weights ['W'] + self._weights['B']
         return predictions
 
     def score(self, X: ndarray, Y: ndarray, metric='rmse') -> float:
@@ -60,8 +59,8 @@ class Regression(object):
             'rmse': rmse
         }
 
-        predictions = #TODO
-        score = #TODO
+        predictions = self._weights['W']*X
+        score = metrics['rmse']
         return score
 
     def _initialize_weights(self, shape: Tuple[int, int]) -> None:
@@ -78,7 +77,7 @@ class Regression(object):
         """
         for i in range(self._epochs):
             print('Epoch: ', i+1)
-            loss, info = forward(X,y,self._weights)
+            loss, info = forward(X, Y , self._weights)
             print('Loss: ', loss)
             grads = backward(info,self._weights)
             self._weights['W'] = self._weights['W'] - self._lr * [grads['W']]  
