@@ -59,8 +59,20 @@ class Regression(object):
             'rmse': rmse
         }
 
-        predictions = self._weights['W']*X
-        score = metrics['rmse']
+        # predictions = self._weights['W']*X
+        # score = metrics['rmse']
+        # return score
+
+
+        predictions = X @ self._weights['W'] + self._weights['B']
+        if metric == 'mae':
+            score = mae(Y, predictions)
+        elif metric == 'sse':
+            score = sse(Y, predictions)
+        elif metric == 'mse':
+            score = mse(Y, predictions)
+        else:
+            score = rmse(Y, predictions)
         return score
 
     def _initialize_weights(self, shape: Tuple[int, int]) -> None:
@@ -80,5 +92,5 @@ class Regression(object):
             loss, info = forward(X, Y , self._weights)
             print('Loss: ', loss)
             grads = backward(info,self._weights)
-            self._weights['W'] = self._weights['W'] - self._lr * [grads['W']]  
-            self._weights['B'] = self._weights['B'] - self._lr * [grads['B']]
+            self._weights['W'] = self._weights['W'] - grads['W'] * self._lr
+            self._weights['B'] = self._weights['B'] - grads['B'] * self._lr

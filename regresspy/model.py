@@ -6,8 +6,8 @@ from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 
-# from regresspy.regression import Regression
-# from regresspy.loss import rmse
+from regression import Regression
+from loss import rmse ,sse
 
 
 iris = load_iris()
